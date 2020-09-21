@@ -1,19 +1,19 @@
-const path = require('path')
-const http = require('http')
-const express = require('express')
-const socketio = require('socket.io')
-const Filter = require('bad-words')
-const { generateMessage, generateLocationMessage } =  require('./utils/messages')
-const { addUser, removeUser, getUser, getUsersInRoom } = require('./utils/users')
+import { join } from 'path'
+import { createServer } from 'http'
+import express, { static } from 'express'
+import socketio from 'socket.io'
+import Filter from 'bad-words'
+import { generateMessage, generateLocationMessage } from './utils/messages'
+import { addUser, removeUser, getUser, getUsersInRoom } from './utils/users'
 
 const app = express()
-const server = http.createServer(app)
+const server = createServer(app)
 const io = socketio(server)
 
 const port = process.env.PORT || 3000
-const publicDirectoryPath = path.join(__dirname, '../public')
+const publicDirectoryPath = join(__dirname, '../public')
 
-app.use(express.static(publicDirectoryPath))
+app.use(static(publicDirectoryPath))
 
 io.on('connection', (socket) => {
     console.log('New WebSocket connection')
